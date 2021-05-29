@@ -73,7 +73,10 @@ const modalOverlay = document.querySelector('.lightbox__overlay');
 
 modalOverlay.addEventListener('click', closeAction);
 closeBtn.addEventListener('click', closeAction);
+window.addEventListener('keydown', ESCCloseAction);
 gallery.addEventListener('click', cardClickAction);
+window.addEventListener('keydown', imageChangeBtnRigth);
+window.addEventListener('keydown', imageChangeBtnLeft);
 
 function createCardsMarkUp(cards) {
   return cards.map(({preview, original, description}) => {
@@ -110,6 +113,71 @@ function closeAction() {
   modal.classList.remove('is-open');
 };
 
+function ESCCloseAction(evt) {
+  if (evt.code !== 'Escape' ) {
+    return;
+  }
+  
+  modalImage.src = '';
+  modalImage.alt = '';
+  modal.classList.remove('is-open');
+}
+
+function imageChangeBtnRigth(evt) {
+  if (evt.code !== 'ArrowRight') {
+    return;
+  }
+  
+  if (modalImage.alt === '') {
+    return;
+  }
+  
+  let cardIndex;
+
+  images.forEach((card, index) => {
+    if (card.original === modalImage.src) {
+      cardIndex = index;
+    }
+  });
+
+  if (cardIndex < images.length-1) {
+    modalImage.alt = images[cardIndex + 1].description;
+    modalImage.src = images[cardIndex + 1].original;  
+  };
+  
+  if (cardIndex === images.length-1) {
+    modalImage.alt = images[0].description;
+    modalImage.src = images[0].original;  
+  };
+}
+
+function imageChangeBtnLeft(evt) {
+  if (evt.code !== 'ArrowLeft') {
+    return;
+  }
+
+  if (modalImage.alt === '') {
+    return;
+  }
+
+  let cardIndex;
+
+  images.forEach((card, index) => {
+    if (card.original === modalImage.src) {
+      cardIndex = index;
+    }
+  });
+
+  if (cardIndex > 0) {
+    modalImage.alt = images[cardIndex - 1].description;
+    modalImage.src = images[cardIndex - 1].original;  
+  };
+
+  if (cardIndex === 0) {
+    modalImage.alt = images[images.length - 1].description;
+    modalImage.src = images[images.length - 1].original;  
+  };
+};
 
 gallery.insertAdjacentHTML('beforeend', cardsMarkUp);
 
