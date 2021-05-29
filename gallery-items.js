@@ -73,7 +73,7 @@ const modalOverlay = document.querySelector('.lightbox__overlay');
 
 modalOverlay.addEventListener('click', closeAction);
 closeBtn.addEventListener('click', closeAction);
-window.addEventListener('keydown', ESCCloseAction);
+window.addEventListener('keydown', escapeCloseAction);
 gallery.addEventListener('click', cardClickAction);
 window.addEventListener('keydown', imageChangeBtnRigth);
 window.addEventListener('keydown', imageChangeBtnLeft);
@@ -113,7 +113,7 @@ function closeAction() {
   modal.classList.remove('is-open');
 };
 
-function ESCCloseAction(evt) {
+function escapeCloseAction(evt) {
   if (evt.code !== 'Escape' ) {
     return;
   }
